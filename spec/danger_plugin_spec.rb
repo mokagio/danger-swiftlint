@@ -47,14 +47,10 @@ module Danger
           # Do it
           @swiftlint.lint_files("spec/fixtures/*.swift")
 
-          output = @swiftlint.status_report[:markdowns].first.to_s
-
-          expect(output).to_not be_empty
-
-          # A title
-          expect(output).to include("SwiftLint found issues")
-          # A warning
-          expect(output).to include("SwiftFile.swift | 13 | Force casts should be avoided.")
+          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
+          expect(@swiftlint.status_report[:warnings]).to be_empty
+          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 
         it 'handles no given files by looking up the git diff' do
@@ -65,7 +61,10 @@ module Danger
 
           @swiftlint.lint_files
 
-          expect(@swiftlint.status_report[:markdowns].first.to_s).to_not be_empty
+          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
+          expect(@swiftlint.status_report[:warnings]).to be_empty
+          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 
         it 'uses a config file generated on the fly by removing the "included" values from the given one' do
@@ -92,7 +91,10 @@ module Danger
 
             @swiftlint.lint_files("spec/fixtures/*.swift")
 
-            expect(@swiftlint.status_report[:markdowns].first.to_s).to_not be_empty
+            expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
+            expect(@swiftlint.status_report[:warnings]).to be_empty
+            expect(@swiftlint.status_report[:messages]).to be_empty
+            expect(@swiftlint.status_report[:markdowns]).to be_empty
           ensure
             fake_temp_file.close
             fake_temp_file.unlink
@@ -105,7 +107,10 @@ module Danger
 
           @swiftlint.lint_files
 
-          expect(@swiftlint.status_report[:markdowns].first.to_s).to_not be_empty
+          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
+          expect(@swiftlint.status_report[:warnings]).to be_empty
+          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 
         it 'does not crash if JSON reporter returns an empty string rather than an object' do

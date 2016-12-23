@@ -80,24 +80,21 @@ module Danger
         end
 
         # Convert to swiftlint results
-        warnings = result_json.select do |results| 
+        warnings = result_json.select do |results|
           results['severity'] == 'Warning'
         end
-        errors = result_json.select do |results| 
-          results['severity'] == 'Error' 
+        errors = result_json.select do |results|
+          results['severity'] == 'Error'
         end
 
-        message = ''
-
-        # We got some error reports back from swiftlint
-        if warnings.count > 0 || errors.count > 0
-          message = "### SwiftLint found issues\n\n"
+        warnings.each do |warning|
+          location = warning['file'].gsub(Dir.pwd, '')
+          warn(warning['type'], file: location, line: warning['line'])
         end
-
-        message << parse_results(warnings, 'Warnings') unless warnings.empty?
-        message << parse_results(errors, 'Errors') unless errors.empty?
-
-        markdown message unless message.empty?
+        errors.each do |error|
+          location = error['file'].gsub(Dir.pwd, '')
+          fail(error['type'], file: location, line: error['line'])
+        end
       end
     end
 
