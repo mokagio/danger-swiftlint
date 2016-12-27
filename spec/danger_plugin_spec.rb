@@ -47,9 +47,10 @@ module Danger
           # Do it
           @swiftlint.lint_files("spec/fixtures/*.swift")
 
-          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
-          expect(@swiftlint.status_report[:warnings]).to be_empty
-          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.violation_report[:errors].first.message).to eq "Force Cast"
+          expect(@swiftlint.violation_report[:errors].first.sticky).to be_truthy
+          expect(@swiftlint.violation_report[:warnings]).to be_empty
+          expect(@swiftlint.violation_report[:messages]).to be_empty
           expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 
@@ -61,9 +62,10 @@ module Danger
 
           @swiftlint.lint_files
 
-          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
-          expect(@swiftlint.status_report[:warnings]).to be_empty
-          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.violation_report[:errors].first.message).to eq "Force Cast"
+          expect(@swiftlint.violation_report[:errors].first.sticky).to be_truthy
+          expect(@swiftlint.violation_report[:warnings]).to be_empty
+          expect(@swiftlint.violation_report[:messages]).to be_empty
           expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 
@@ -92,6 +94,7 @@ module Danger
             @swiftlint.lint_files("spec/fixtures/*.swift")
 
             expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
+            expect(@swiftlint.violation_report[:errors].first.sticky).to be_truthy
             expect(@swiftlint.status_report[:warnings]).to be_empty
             expect(@swiftlint.status_report[:messages]).to be_empty
             expect(@swiftlint.status_report[:markdowns]).to be_empty
@@ -107,9 +110,10 @@ module Danger
 
           @swiftlint.lint_files
 
-          expect(@swiftlint.status_report[:errors].first).to eq "Force Cast"
-          expect(@swiftlint.status_report[:warnings]).to be_empty
-          expect(@swiftlint.status_report[:messages]).to be_empty
+          expect(@swiftlint.violation_report[:errors].first.message).to eq "Force Cast"
+          expect(@swiftlint.violation_report[:errors].first.sticky).to be_truthy
+          expect(@swiftlint.violation_report[:warnings]).to be_empty
+          expect(@swiftlint.violation_report[:messages]).to be_empty
           expect(@swiftlint.status_report[:markdowns]).to be_empty
         end
 

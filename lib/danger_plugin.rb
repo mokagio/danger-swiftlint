@@ -89,11 +89,11 @@ module Danger
 
         warnings.each do |warning|
           location = warning['file'].gsub(Dir.pwd, '')
-          warn(warning['type'], file: location, line: warning['line'])
+          warn(warning['type'], sticky: true, file: location, line: warning['line'])
         end
         errors.each do |error|
           location = error['file'].gsub(Dir.pwd, '')
-          fail(error['type'], file: location, line: error['line'])
+          fail(error['type'], sticky: true, file: location, line: error['line'])
         end
       end
     end
