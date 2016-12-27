@@ -98,28 +98,6 @@ module Danger
       end
     end
 
-    # Parses swiftlint invocation results into a string
-    # which is formatted as a markdown table.
-    #
-    # @return  [String]
-    #
-    def parse_results (results, heading)
-      message = "#### #{heading}\n\n"
-
-      message << "File | Line | Reason |\n"
-      message << "| --- | ----- | ----- |\n"
-
-      results.each do |r|
-        filename = r['file'].split('/').last
-        line = r['line']
-        reason = r['reason']
-
-        message << "#{filename} | #{line} | #{reason} \n"
-      end
-
-      message
-    end
-
     # Determine if swiftlint is currently installed in the system paths.
     # @return  [Bool]
     #
